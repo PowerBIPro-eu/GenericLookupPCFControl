@@ -3,7 +3,6 @@ import * as ReactDOM from "react-dom";
 import { IInputs } from "../generated/ManifestTypes";
 import iPropsInput from "../interfaces/iPropsInput";
 import iCreateField from "../interfaces/iCreateField";
-import GetSampleConfig from "../sampledata/config";
 import iField from "../interfaces/iField";
 import { ReactTabulator } from "react-tabulator";
 import Loader from "react-loader-spinner";
@@ -544,6 +543,11 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
     }
   };
 
+  ClearSelection = () => {
+    // @ts-ignore
+    Xrm.Page.getAttribute(this._tmpField.name).setValue();
+  }
+
   public render() {
     const options = {
       layoutColumnsOnNewData: true,
@@ -612,6 +616,7 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
                                         className="gl_button_close"
                                         onClick={() => {
                                           this.SetEditability(true);
+                                          this.ClearSelection();
                                         }}
                                       >
                                         <span className="gl_span">
