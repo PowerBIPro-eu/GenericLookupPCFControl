@@ -178,6 +178,11 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
               lookupId: tmpLookupId,
               lookupText: tmpLookupText,
             });
+
+            if (tmpLookupId === null) {
+              console.log('nic nie je selectnute');
+              thisRef.SetEditability(true);
+            }
           },
           function (error) {
             console.log(error.message);
