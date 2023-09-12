@@ -1481,3 +1481,106 @@ display: flex;
 }
 /*Temp Styles End*/
 /*CreateComponent End*/
+
+/* DDSOL EDIT */
+input[type='search'] {
+  border-bottom: 1px solid darkgray;
+  border-radius: 4px;
+  border-top: 0.25px solid lightgray;
+  border-left: 0.25px solid lightgray;
+  border-right: 0.25px solid lightgray;
+}
+
+input[type="search"]:active, input[type="search"]:focus {
+  border-bottom: 2px solid rgb(17, 96, 183);
+}
+
+.tabulator-row .tabulator-cell {
+  padding: 0.3em 0.7em !important;
+}
+
+.tabulator .tabulator-header .tabulator-col.tabulator-sortable .tabulator-col-title {
+  font-weight: bold;
+  font-size: 1.15em;
+}
+
+.tabulator .tabulator-col-resize-handle {
+  display: none !important;
+}
+
+input.glInput {
+  padding: 7px !important;
+}
+
+input.glInput::placeholder {
+  color: rgb(51, 51, 51);
+  font-weight: bold;
+}
+
+input.glInput:hover::placeholder {
+  color: gray;
+  font-weight: inherit;
+}
+
+/* Custom Checkbox CSS */
+/* Style the custom checkbox container */
+.custom-checkbox {
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+}
+
+/* Hide the default checkbox */
+.custom-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+/* Create the custom checkbox appearance */
+.custom-checkbox .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid gray;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+/* Style the tick/checkmark */
+.custom-checkbox .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 4px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid transparent;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* If not checked and hover, display gray tick */
+.custom-checkbox:hover input:not(:checked) ~ .checkmark:after {
+  display: block;
+  border-color: lightgray;
+}
+
+/* If checked, tick should be white and background blue */
+.custom-checkbox input:checked ~ .checkmark {
+  background-color: rgb(17, 96, 183);
+}
+.custom-checkbox input:checked ~ .checkmark:after {
+  display: block;
+  border-color: white;
+}
+
+/* If checked and hover, change nothing */
+/* No additional styles needed as the above styles already handle this case */
+
+.tabulator-row .tabulator-cell[title="select"] {
+  text-overflow: clip;
+}

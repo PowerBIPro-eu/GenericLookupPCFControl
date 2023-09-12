@@ -36,7 +36,7 @@ const styles: any = mergeStyleSets({
   },
 
   callout: {
-    maxWidth: 600,
+    maxWidth: 1000,
   },
   header: {
     padding: "18px 24px 12px",
@@ -95,7 +95,7 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
 
   _originalLookupId: string = "";
   _originalLookupText: string = "";
-  _placeHolder: string = "Search in ";
+  _placeHolder: string = "Look for ";
   _entityId: string = "";
   _entityTypeName: string = "";
 
@@ -221,7 +221,7 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
       formatter: (cell: any) => this.SelectFormatter(cell),
       align: "center",
       headerSort: false,
-      width: 80,
+      width: 40,
       field: "select",
     });
 
@@ -230,20 +230,27 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
         title: tmp.displayText,
         field: tmp.name,
         headerFilter: "input",
+        width: tmp.width,
+        resizable: false
       };
       this._columns.push(tmpCol);
     });
   };
   SelectFormatter = (cell: any) => {
     let thisRef = this;
-    let tmpAnchor = document.createElement("a");
-    tmpAnchor.href = "#";
-    tmpAnchor.id = "lnk" + cell.getRow().getPosition(true);
-    tmpAnchor.tabIndex = -1;
-    tmpAnchor.innerText = "Select";
-    tmpAnchor.className = "editable_grid_title_link";
-    tmpAnchor.setAttribute("aria-label", "Select Record");
-    tmpAnchor.onclick = (e) => {
+    let tmpCheckbox = document.createElement("label");
+    tmpCheckbox.className = "custom-checkbox";
+    tmpCheckbox.innerHTML = "<input type='checkbox'><span class='checkmark'></span>";
+    tmpCheckbox.tabIndex = -1;
+    tmpCheckbox.setAttribute("aria-label", "Select Record");
+    // let tmpAnchor = document.createElement("a");
+    // tmpAnchor.href = "#";
+    // tmpAnchor.id = "lnk" + cell.getRow().getPosition(true);
+    // tmpAnchor.tabIndex = -1;
+    // tmpAnchor.innerText = "Select";
+    // tmpAnchor.className = "editable_grid_title_link";
+    // tmpAnchor.setAttribute("aria-label", "Select Record");
+    tmpCheckbox.onclick = (e) => {
       e.preventDefault();
       let tmpSelectedItem = cell.getRow().getData()[
         this._tmpField.lookUpCol?.primaryFeild ?? ""
@@ -271,7 +278,7 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
       thisRef.SetLookupText();
       thisRef.CloseCallOut();
     };
-    return tmpAnchor;
+    return tmpCheckbox;
   };
   LoadData = (selectedViewId: number) => {
     let thisRef = this;
@@ -559,11 +566,14 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
       tooltips: true, //show tool tips on cells
       addRowPos: "top", //when adding a new row, add it to the top of the table
       history: true, //allow undo and redo actions on the table
-      resizableRows: true, //allow row order to be changed
+      //resizableRows: true, //allow row order to be changed
       height: 590,
       pagination: "local",
-      paginationSize: 10,
+      paginationSize: 15,
       placeholder: "No Data Available",
+      rowHeight: 30,
+      movableColumns: false,
+      selectable: false
     };
     return (
       <div>
@@ -645,8 +655,18 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
                                   className="glInput"
                                   name={this._txtSearchId}
                                   autoComplete="off"
-                                  placeholder={this._placeHolder}
-                                  title={this._placeHolder}
+                                  placeholder="---"
+                                  onKeyDown={(event) => {
+                                    if (event.key === 'Enter') {
+                                      this.OnSearchClick();
+                                    }
+                                  }}
+                                  onMouseOver={(e) => {
+                                    (e.target as HTMLInputElement).placeholder = this._placeHolder
+                                  }}
+                                  onMouseOut={(e) => {
+                                    (e.target as HTMLInputElement).placeholder = "---"
+                                  }}
                                 ></input>
                               </div>
                               <div className="gridDivRight">
@@ -683,7 +703,9 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
                                     }`}
                                     onDismiss={this.CloseCallOut}
                                     setInitialFocus
+                                    style={{overflowX: "scroll"}}
                                   >
+                                    <h3 style={{padding: "10px"}}>{this._tmpField.calloutTitle}</h3>
                                     <table className="glTable">
                                       <thead className="glThead">
                                         <td colSpan={2}>
@@ -705,24 +727,16 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
                                                   ></input>
                                                 )}
                                               </td>
-                                              <td>
-                                                {this._recordsThreshHoldLimit >
-                                                  0 &&
-                                                  this.state.data.length >=
-                                                    this
-                                                      ._recordsThreshHoldLimit && (
-                                                    <div className="WarningToopBarDiv">
-                                                      <div className="warningIcon"></div>
-                                                      <div>
-                                                        More than
-                                                        {this._tmpField.recordsThreshHoldLimit?.toString()}{" "}
-                                                        records found. If you do
-                                                        not find desired result,
-                                                        narrow down your search.
-                                                      </div>
+                                              {this._tmpField.infoText &&
+                                                <td>
+                                                  <div className="WarningToopBarDiv">
+                                                    <div className="warningIcon"></div>
+                                                    <div>
+                                                      {this._tmpField.infoText} 
                                                     </div>
-                                                  )}
-                                              </td>
+                                                  </div>
+                                                </td>
+                                              }
                                             </tr>
                                           </table>
                                         </td>
@@ -757,50 +771,6 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
                                               className="custom-css-class-lookup"
                                             />
                                           )}
-                                        </td>
-                                      </tr>
-
-                                      <tr className="glFooter">
-                                        <td align="left">
-                                          {this._tmpField.newRecordText && (
-                                            <button
-                                              id="btnSearch"
-                                              className="gl_button_new"
-                                              onClick={() => {
-                                                this.OnNewClick();
-                                              }}
-                                            >
-                                              <span className="gl_span">
-                                                <span className="gl_span_span">
-                                                  <span className="glNewFont glFont600 gl_span_span_icon symbolFont New-symbol"></span>
-                                                </span>
-                                                <span className="glFont600 editable_grid_actions_span_span_label">
-                                                  {this._tmpField
-                                                    .newRecordText ?? "New"}
-                                                </span>
-                                              </span>
-                                            </button>
-                                          )}
-                                        </td>
-                                        <td align="right">
-                                          <select
-                                            className="glViewSelectList"
-                                            id={this._ddlView}
-                                            onChange={() => {
-                                              this.OnViewChange();
-                                            }}
-                                          >
-                                            {this._tmpField.lookUpCol?.views?.map(
-                                              (view: iView) => (
-                                                <option
-                                                  value={view.id}
-                                                  selected={view.isDefault}
-                                                >
-                                                  {view.name}
-                                                </option>
-                                              )
-                                            )}
-                                          </select>
                                         </td>
                                       </tr>
                                     </table>

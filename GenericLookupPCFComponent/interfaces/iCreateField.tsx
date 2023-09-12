@@ -14,4 +14,6 @@ export default interface iCreateField {
   newRecordText?: string;
   focusControl?: string;
   entitySymbol?: string;
+  calloutTitle?: string;
+  infoText?: string;
 }
