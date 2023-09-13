@@ -16,4 +16,5 @@ export default interface iCreateField {
   entitySymbol?: string;
   calloutTitle?: string;
   infoText?: string;
+  virtualTable: boolean;
 }

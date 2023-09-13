@@ -173,16 +173,43 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
                   thisRef._tmpField.name +
                   "_value@OData.Community.Display.V1.FormattedValue"
               ];
-
-            thisRef.setState({
-              lookupId: tmpLookupId,
-              lookupText: tmpLookupText,
-            });
-
-            if (tmpLookupId === null) {
-              console.log('nic nie je selectnute');
-              thisRef.SetEditability(true);
-            }
+            
+              if (thisRef._tmpField.virtualTable) { // VIRTUAL TABLE LOGIC DDSOL
+                const virtTblPk = thisRef._tmpField.lookUpCol?.primaryKey as string;
+                const virtTblName = thisRef._tmpField.lookUpCol?.entity as string;
+                const virtTblNameCol = thisRef._tmpField.lookUpCol?.primaryFeild as string;
+                thisRef._context.webAPI
+                .retrieveMultipleRecords(
+                  virtTblName,
+                  `?$filter=${virtTblPk} eq '${tmpLookupId}'`
+                )
+                .then(
+                  function success(result) {
+                    tmpLookupText = result.entities[0][virtTblNameCol];
+        
+                    thisRef.setState({
+                      lookupId: tmpLookupId,
+                      lookupText: tmpLookupText,
+                    });
+        
+                    if (tmpLookupId === null) {
+                      thisRef.SetEditability(true);
+                    }
+                  },
+                  function (error) {
+                    console.log(error.message);
+                  }
+                );
+              } else { // REGULAR LOOKUP FINISH
+                thisRef.setState({
+                  lookupId: tmpLookupId,
+                  lookupText: tmpLookupText,
+                });
+    
+                if (tmpLookupId === null) {
+                  thisRef.SetEditability(true);
+                }
+              }            
           },
           function (error) {
             console.log(error.message);

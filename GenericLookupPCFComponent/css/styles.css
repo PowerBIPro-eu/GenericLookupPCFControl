@@ -1522,6 +1522,10 @@ input.glInput:hover::placeholder {
   font-weight: inherit;
 }
 
+.glLink {
+  font-family: 'Segoe UI Regular' !important;
+}
+
 /* Custom Checkbox CSS */
 /* Style the custom checkbox container */
 .custom-checkbox {
