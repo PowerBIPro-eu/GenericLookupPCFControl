@@ -4,10 +4,10 @@
 
 // Define IInputs and IOutputs Type. They should match with ControlManifest.
 export interface IInputs {
-    DummyLookupField: ComponentFramework.PropertyTypes.StringProperty;
+    LookupField: ComponentFramework.PropertyTypes.LookupProperty;
     ConfigJSON: ComponentFramework.PropertyTypes.StringProperty;
     ConfigFileName: ComponentFramework.PropertyTypes.StringProperty;
 }
 export interface IOutputs {
-    DummyLookupField?: string;
+    LookupField?: ComponentFramework.LookupValue[];
 }

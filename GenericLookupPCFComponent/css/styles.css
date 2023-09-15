@@ -1526,6 +1526,10 @@ input.glInput:hover::placeholder {
   font-family: 'Segoe UI Regular' !important;
 }
 
+.egmtCreateDivMain {
+  border: 1px solid transparent;
+}
+
 /* Custom Checkbox CSS */
 /* Style the custom checkbox container */
 .custom-checkbox {

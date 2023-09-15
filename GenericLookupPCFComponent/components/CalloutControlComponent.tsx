@@ -5,12 +5,13 @@ import iPropsInput from "../interfaces/iPropsInput";
 import iCreateField from "../interfaces/iCreateField";
 import iField from "../interfaces/iField";
 import { ReactTabulator } from "react-tabulator";
-import Loader from "react-loader-spinner";
 import {
   Callout,
   getTheme,
   FontWeights,
   mergeStyleSets,
+  Spinner,
+  SpinnerSize,
 } from "office-ui-fabric-react";
 import iView from "../interfaces/iView";
 
@@ -174,7 +175,7 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
                   "_value@OData.Community.Display.V1.FormattedValue"
               ];
             
-              if (thisRef._tmpField.virtualTable) { // VIRTUAL TABLE LOGIC DDSOL
+              if (thisRef._tmpField.virtualTable && tmpLookupId) { // VIRTUAL TABLE LOGIC DDSOL
                 const virtTblPk = thisRef._tmpField.lookUpCol?.primaryKey as string;
                 const virtTblName = thisRef._tmpField.lookUpCol?.entity as string;
                 const virtTblNameCol = thisRef._tmpField.lookUpCol?.primaryFeild as string;
@@ -635,9 +636,8 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
                                     <li className="glLi">
                                       <div role="link" className="glLinkLiv">
                                         <div>
-                                          <span
-                                            className={this._entitySymbol}
-                                          ></span>
+                                          {this._tmpField.entityCustomImage && <img src={"/webresources/"+this._tmpField.entityCustomImage} style={{width: "16px"}}></img>}
+                                          {this._entitySymbol && <span className={this._entitySymbol}></span>}
                                         </div>
                                         <div className="glText">
                                           <a
@@ -776,12 +776,7 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
                                             align="center"
                                             className="tdSpinner"
                                           >
-                                            <Loader
-                                              type="Bars"
-                                              color="#00BFFF"
-                                              height={40}
-                                              width={40}
-                                            />
+                                            <Spinner label="Loading data" size={SpinnerSize.large} />
                                           </td>
                                         </tr>
                                       )}

@@ -6,33 +6,34 @@ import * as ReactDOM from "react-dom";
 import iPropsInput from "./interfaces/iPropsInput";
 import CalloutControlComponent from "./components/CalloutControlComponent";
 
-export class GenericLookupPCFComponent implements ComponentFramework.StandardControl<IInputs, IOutputs> {
+export class DDSolAdvancedLookup implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
 	private _container: HTMLDivElement;
 	private _context: ComponentFramework.Context<IInputs>;
 	private _optionSets: any[];
 	private _config: any;
   
-	private props: iPropsInput = {
-	  context: this._context,
-	  optionSets: this._optionSets,
-	  gridConfig: this._config,
-	};
+	private props: iPropsInput;
 	constructor() {}
   
 	public init(
 	  context: ComponentFramework.Context<IInputs>,
 	  notifyOutputChanged: () => void,
 	  state: ComponentFramework.Dictionary,
-	  container: HTMLDivElement
+	  container: HTMLDivElement,
 	) {
 	  this._container = container;
 	  this._context = context;
+	  this.props = {
+		context: this._context,
+		optionSets: this._optionSets,
+		gridConfig: this._config,
+	  }
 	}
   
 	public async updateView(context: ComponentFramework.Context<IInputs>) {
 	  this._context = context;
-	  this.props.context = this._context;
+	  this.props.context = context;
 	  ReactDOM.render(React.createElement(CalloutControlComponent, this.props),this._container);
 	}
   
