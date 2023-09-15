@@ -216,6 +216,8 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
             console.log(error.message);
           }
         );
+    } else {
+      thisRef.SetEditability(true);
     }
     this.LoadData(0);
   };
