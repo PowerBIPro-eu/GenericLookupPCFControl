@@ -303,6 +303,7 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
       // @ts-ignore
       let tmpLookupField = Xrm.Page.getAttribute(thisRef._tmpField.name);
       tmpLookupField.setValue(lookupValue);
+      tmpLookupField.fireOnChange();
 
       thisRef.SetEditability(false);
       thisRef.SetLookupText();
@@ -373,6 +374,11 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
         );
       }
       fetchXml = fetchXml.replace("<MORECONDITIONS/>", tmpConditions);
+      this._tmpField.advancedFetchXmlFilters.forEach(filterObj => {
+        // @ts-ignore
+        const filterValue = Xrm.Page.getAttribute(filterObj.filterByLookupField).getValue()?.[0]?.id;
+        fetchXml = fetchXml.replace(filterObj.filterPlaceholder, filterValue);
+      });
       fetchXml = "?fetchXml=" + encodeURIComponent(fetchXml);
       this._context.webAPI.retrieveMultipleRecords(this._tmpField.lookUpCol?.entity??"", fetchXml).then(
         function success(result) {
