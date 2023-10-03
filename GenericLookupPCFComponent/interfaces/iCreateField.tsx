@@ -24,4 +24,5 @@ export default interface iCreateField {
   infoText?: string;
   virtualTable: boolean;
   advancedFetchXmlFilters: AdvancedFetchXmlFilterArray;
+  isDisplayOnly?: boolean;
 }

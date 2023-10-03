@@ -28,12 +28,21 @@ export class DDSolAdvancedLookup implements ComponentFramework.StandardControl<I
 		context: this._context,
 		optionSets: this._optionSets,
 		gridConfig: this._config,
+		isReadOnly: false,
 	  }
 	}
   
 	public async updateView(context: ComponentFramework.Context<IInputs>) {
 	  this._context = context;
 	  this.props.context = context;
+	  // Get the lookup value
+	  let lookupValue = context.parameters.LookupField.raw as unknown as ComponentFramework.EntityReference[];
+	  let name = lookupValue && lookupValue.length > 0 ? lookupValue[0].name : "";
+	  let id = lookupValue && lookupValue.length > 0 ? lookupValue[0].id as unknown as string : "";
+	  // Update the props with the new lookup value
+	  this.props.lookupText = name;
+	  this.props.lookupId = id;
+	  this.props.isReadOnly = context.mode.isControlDisabled;
 	  ReactDOM.render(React.createElement(CalloutControlComponent, this.props),this._container);
 	}
   

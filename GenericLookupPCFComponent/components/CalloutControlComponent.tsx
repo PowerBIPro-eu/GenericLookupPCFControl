@@ -121,6 +121,7 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
     lookupId: "",
     selectedView: 0,
     showSpinner: false,
+    isReadOnly: false,
   };
 
   constructor(props: iPropsInput) {
@@ -140,6 +141,8 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
     this._divTextbox = "divTextbox" + this._tmpField.name;
     this._entitySymbol =
       "crmSymbolFont entity-symbol " + this._tmpField.entitySymbol ?? "Account";
+
+    this.setState({ isReadOnly: this.props.isReadOnly });
 
     this.LoadColumns();
     this._tmpField.lookUpCol?.fitlerTextFields?.forEach(
@@ -376,6 +379,7 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
       fetchXml = fetchXml.replace("<MORECONDITIONS/>", tmpConditions);
       this._tmpField.advancedFetchXmlFilters.forEach(filterObj => {
         // @ts-ignore
+        //if (filterObj.)
         const filterValue = Xrm.Page.getAttribute(filterObj.filterByLookupField).getValue()?.[0]?.id;
         fetchXml = fetchXml.replace(filterObj.filterPlaceholder, filterValue);
       });
@@ -483,8 +487,18 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
     this.LoadInitialData();
   };
 
-  componentDidUpdate = () => {
-    this.SetLookupText();
+  componentDidUpdate = (prevProps: iPropsInput) => {
+    if (this.props.lookupText !== prevProps.lookupText
+      && this.props.lookupId !== undefined && this.props.lookupId !== '' && this.props.lookupId !== null
+      && this.props.lookupText !== undefined && this.props.lookupText !== '' && this.props.lookupText !== null) {
+        this.setState({ lookupText: this.props.lookupText, lookupId: this.props.lookupId }, () => {
+            this.SetLookupText();
+        });
+    }
+    // Check if isReadOnly prop has changed
+    if (this.props.isReadOnly !== prevProps.isReadOnly) {
+        this.setState({ isReadOnly: this.props.isReadOnly });
+    }
   };
 
   SetFilter = () => {
@@ -661,20 +675,22 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
                                           </a>
                                         </div>
                                       </div>
-                                      <button
-                                        type="button"
-                                        className="gl_button_close"
-                                        onClick={() => {
-                                          this.SetEditability(true);
-                                          this.ClearSelection();
-                                        }}
-                                      >
-                                        <span className="gl_span">
-                                          <span className="gl_span_span">
-                                            <span className="gl_span_span_icon symbolFont Cancel-symbol"></span>
+                                      {!this.state.isReadOnly && !this._tmpField.isDisplayOnly &&
+                                        <button
+                                          type="button"
+                                          className="gl_button_close"
+                                          onClick={() => {
+                                            this.SetEditability(true);
+                                            this.ClearSelection();
+                                          }}
+                                        >
+                                          <span className="gl_span">
+                                            <span className="gl_span_span">
+                                              <span className="gl_span_span_icon symbolFont Cancel-symbol"></span>
+                                            </span>
                                           </span>
-                                        </span>
-                                      </button>
+                                        </button>
+                                      }
                                     </li>
                                   </ul>
                                 </div>
@@ -693,7 +709,9 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
                                   placeholder="---"
                                   onKeyDown={(event) => {
                                     if (event.key === 'Enter') {
-                                      this.OnSearchClick();
+                                      {!this.state.isReadOnly && !this._tmpField.isDisplayOnly &&
+                                        this.OnSearchClick();
+                                      }
                                     }
                                   }}
                                   onMouseOver={(e) => {
@@ -705,6 +723,7 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
                                 ></input>
                               </div>
                               <div className="gridDivRight">
+                              {!this.state.isReadOnly && !this._tmpField.isDisplayOnly &&
                                 <button
                                   id="btnSearch"
                                   className="gl_button"
@@ -718,6 +737,7 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
                                     </span>
                                   </span>
                                 </button>
+                              }
                               </div>
                             </div>
 
