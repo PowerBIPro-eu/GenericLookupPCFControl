@@ -1333,6 +1333,12 @@ height: 20px;
   border-style: solid;
   /* background-color: #e2e2e2; */
 }
+.egmtCreateDivMain.disabled:hover{
+  border-color: rgb(226, 226, 226) !important;
+  border-width: 1px;
+  border-style: solid;
+  background-color: rgb(226, 226, 226);
+}
 .gridLookupContainer
 {
   box-sizing: border-box;

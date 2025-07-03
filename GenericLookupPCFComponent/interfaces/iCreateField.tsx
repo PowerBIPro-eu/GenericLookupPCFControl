@@ -25,4 +25,5 @@ export default interface iCreateField {
   virtualTable: boolean;
   advancedFetchXmlFilters: AdvancedFetchXmlFilterArray;
   isDisplayOnly?: boolean;
+  filterByUserDivisionHyperionNumberFetchXml?: boolean;
 }

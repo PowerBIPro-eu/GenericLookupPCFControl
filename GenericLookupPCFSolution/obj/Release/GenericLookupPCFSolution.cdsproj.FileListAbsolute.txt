@@ -1,1 +1,2 @@
 C:\Shiva\GenericLookupPCF\GenericLookupPCFSolution\obj\Release\GenericLookupPCFSolution.cdsproj.CoreCompileInputs.cache
+C:\Users\WiliamJuricekPowerBI\Web Development\PCF Components\GenericLookupPCFControl\GenericLookupPCFSolution\obj\Release\GenericLookupPCFSolution.cdsproj.CoreCompileInputs.cache

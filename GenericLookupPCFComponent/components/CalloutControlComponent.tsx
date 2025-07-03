@@ -351,7 +351,7 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
     }
   };
 
-  LoadDataFromFetchXML = (selectedViewId: number) => {
+  LoadDataFromFetchXML = async (selectedViewId: number) => {
     let thisref = this;
     if (this._tmpField?.lookUpCol?.views) {
       let fetchXml =
@@ -377,12 +377,22 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
         );
       }
       fetchXml = fetchXml.replace("<MORECONDITIONS/>", tmpConditions);
+
+      // implement advanced dynamic FetchXML filters from JSON config
       this._tmpField.advancedFetchXmlFilters.forEach(filterObj => {
         // @ts-ignore
-        //if (filterObj.)
         const filterValue = Xrm.Page.getAttribute(filterObj.filterByLookupField).getValue()?.[0]?.id;
         fetchXml = fetchXml.replace(filterObj.filterPlaceholder, filterValue);
       });
+
+      // Fetch the user's division code and replace the placeholder
+      if (this._tmpField?.filterByUserDivisionHyperionNumberFetchXml) {
+          const divisionCode = await this.fetchUserDivisionCodeWithExpand();
+          if (divisionCode) {
+              fetchXml = fetchXml.replace("DivisionHyperionNumber", divisionCode);
+          }
+      }
+
       fetchXml = "?fetchXml=" + encodeURIComponent(fetchXml);
       this._context.webAPI.retrieveMultipleRecords(this._tmpField.lookUpCol?.entity??"", fetchXml).then(
         function success(result) {
@@ -394,6 +404,22 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
       );
     }
   };
+  private async fetchUserDivisionCodeWithExpand(): Promise<string | null> {
+      const userId = this._context.userSettings.userId;
+      const entityName = "systemuser";
+      const options = `?$select=_businessunitid_value&$expand=businessunitid($select=crf44_divisioncode)&$filter=systemuserid eq ${userId}`;
+
+      try {
+          const userRecord = await this._context.webAPI.retrieveRecord(entityName, userId, options);
+          if (userRecord && userRecord.businessunitid && userRecord.businessunitid.crf44_divisioncode) {
+              return userRecord.businessunitid.crf44_divisioncode;
+          }
+      } catch (error) {
+          console.error("Error fetching user's division code with expand:", error);
+      }
+      return null;
+  }
+
   LoadDataFromNonFetchXML = () => {
     let tmpSearchText =
       (document.getElementById(this._txtSearchId) as HTMLInputElement).value ??
@@ -493,6 +519,7 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
       && this.props.lookupText !== undefined && this.props.lookupText !== '' && this.props.lookupText !== null) {
         this.setState({ lookupText: this.props.lookupText, lookupId: this.props.lookupId }, () => {
             this.SetLookupText();
+            this.SetEditability(false);
         });
     }
     // Check if isReadOnly prop has changed
@@ -628,7 +655,7 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
     return (
       <div>
         <div>
-          <div className="egmtCreateDivMain" id="divCreateDetail">
+          <div className={`egmtCreateDivMain ${this.state.isReadOnly || this._tmpField.isDisplayOnly ? 'disabled' : ''}`} id="divCreateDetail">
             <div className="egmtCreateDivWrapper">
               <div role="presentation" className="egmtCreateDiv">
                 <div role="presentation" className="egmtCreateDiv2">
@@ -707,6 +734,7 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
                                   name={this._txtSearchId}
                                   autoComplete="off"
                                   placeholder="---"
+                                  disabled={this.state.isReadOnly || this._tmpField.isDisplayOnly}
                                   onKeyDown={(event) => {
                                     if (event.key === 'Enter') {
                                       {!this.state.isReadOnly && !this._tmpField.isDisplayOnly &&
@@ -715,10 +743,14 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
                                     }
                                   }}
                                   onMouseOver={(e) => {
-                                    (e.target as HTMLInputElement).placeholder = this._placeHolder
+                                    {!this.state.isReadOnly && !this._tmpField.isDisplayOnly &&
+                                      ((e.target as HTMLInputElement).placeholder = this._placeHolder)
+                                    }
                                   }}
                                   onMouseOut={(e) => {
-                                    (e.target as HTMLInputElement).placeholder = "---"
+                                    {!this.state.isReadOnly && !this._tmpField.isDisplayOnly &&
+                                      ((e.target as HTMLInputElement).placeholder = "---")
+                                    }
                                   }}
                                 ></input>
                               </div>

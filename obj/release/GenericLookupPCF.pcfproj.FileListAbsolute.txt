@@ -1,2 +1,4 @@
 C:\Shiva\GenericLookupPCF\obj\release\GenericLookupPCF.pcfprojAssemblyReference.cache
 C:\Shiva\GenericLookupPCF\obj\release\GenericLookupPCF.pcfproj.CoreCompileInputs.cache
+C:\Users\WiliamJuricekPowerBI\Web Development\PCF Components\GenericLookupPCFControl\obj\Release\GenericLookupPCF.pcfproj.AssemblyReference.cache
+C:\Users\WiliamJuricekPowerBI\Web Development\PCF Components\GenericLookupPCFControl\obj\Release\GenericLookupPCF.pcfproj.CoreCompileInputs.cache

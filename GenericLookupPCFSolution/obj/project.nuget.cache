@@ -1,11 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "p8hrz/b3lvGR2s9ed3LWWCqDaQJVMmdb9AtXn3eO2QApEEscoRQY3+Ar2rk8pOXDlAM2+qTatAlC3bKZrBaa6Q==",
+  "dgSpecHash": "v17aooZNCq0Rcbr/p3z+asowF6y+QqTyhVg4c/WxXdnd0CPwuUK4200PBRQkNkyRj7EuVQ7/FUcQgF1BnsRAGA==",
   "success": true,
-  "projectFilePath": "C:\\Shiva\\GenericLookupPCF\\GenericLookupPCFSolution\\GenericLookupPCFSolution.cdsproj",
+  "projectFilePath": "C:\\Users\\WiliamJuricekPowerBI\\Web Development\\PCF Components\\GenericLookupPCFControl\\GenericLookupPCFSolution\\DDSolAdvancedLookupSolution.cdsproj",
   "expectedPackageFiles": [
-    "C:\\Users\\sparagi\\.nuget\\packages\\microsoft.powerapps.msbuild.pcf\\1.4.4\\microsoft.powerapps.msbuild.pcf.1.4.4.nupkg.sha512",
-    "C:\\Users\\sparagi\\.nuget\\packages\\microsoft.powerapps.msbuild.solution\\1.4.4\\microsoft.powerapps.msbuild.solution.1.4.4.nupkg.sha512"
+    "C:\\Users\\WiliamJuricekPowerBI\\.nuget\\packages\\microsoft.powerapps.msbuild.solution\\1.26.6\\microsoft.powerapps.msbuild.solution.1.26.6.nupkg.sha512"
   ],
   "logs": []
 }
