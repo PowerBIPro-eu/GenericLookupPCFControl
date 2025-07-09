@@ -1,2 +1,0 @@
-C:\Users\WiliamJuricekPowerBI\Web Development\PCF Components\GenericLookupPCFControl\obj\Release\DDSolAdvancedLookup.pcfproj.AssemblyReference.cache
-C:\Users\WiliamJuricekPowerBI\Web Development\PCF Components\GenericLookupPCFControl\obj\Release\DDSolAdvancedLookup.pcfproj.CoreCompileInputs.cache
