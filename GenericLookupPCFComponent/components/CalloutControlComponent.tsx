@@ -15,6 +15,21 @@ import {
 } from 'office-ui-fabric-react';
 import iView from '../interfaces/iView';
 
+interface ComponentState {
+  expandValidations: boolean;
+  isLookupOpen: boolean;
+  lookupField: any;
+  selectedLookupField: any;
+  data: any[];
+  filterText: string;
+  calloutVisible: boolean;
+  lookupText: string;
+  lookupId: string;
+  selectedView: number;
+  showSpinner: boolean;
+  isReadOnly: boolean;
+}
+
 const theme = getTheme();
 const styles: any = mergeStyleSets({
   buttonArea: {
@@ -82,7 +97,7 @@ const styles: any = mergeStyleSets({
   ],
 });
 
-class CalloutControlComponent extends React.Component<iPropsInput> {
+class CalloutControlComponent extends React.Component<iPropsInput, ComponentState> {
   ref: any = null;
   _context: ComponentFramework.Context<IInputs>;
   _tmpField: iCreateField;
@@ -109,21 +124,6 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
   _divTextbox = 'divTextbox';
   _entitySymbol = '';
 
-  state = {
-    expandValidations: false,
-    isLookupOpen: false,
-    lookupField: undefined,
-    selectedLookupField: undefined,
-    data: this._data,
-    filterText: '',
-    calloutVisible: false,
-    lookupText: '',
-    lookupId: '',
-    selectedView: 0,
-    showSpinner: false,
-    isReadOnly: false,
-  };
-
   constructor(props: iPropsInput) {
     super(props);
     this._context = props.context;
@@ -142,7 +142,21 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
     this._entitySymbol =
       'crmSymbolFont entity-symbol ' + (this._tmpField.entitySymbol ?? 'Account');
 
-    this.setState({ isReadOnly: this.props.isReadOnly });
+    // Initialize state with values from props (for programmatic changes)
+    this.state = {
+      expandValidations: false,
+      isLookupOpen: false,
+      lookupField: undefined,
+      selectedLookupField: undefined,
+      data: this._data,
+      filterText: '',
+      calloutVisible: false,
+      lookupText: (props.lookupText || '').toString(),
+      lookupId: (props.lookupId || '').toString(),
+      selectedView: 0,
+      showSpinner: false,
+      isReadOnly: props.isReadOnly || false,
+    };
 
     this.LoadColumns();
     this._tmpField.lookUpCol?.fitlerTextFields?.forEach((tmpField: iField, index) => {
@@ -155,6 +169,20 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
 
   LoadInitialData = () => {
     let thisRef = this;
+
+    // First check if we already have lookup values from props (programmatic changes)
+    if (this.props.lookupText && this.props.lookupId) {
+      this.setState({
+        lookupText: this.props.lookupText.toString(),
+        lookupId: this.props.lookupId.toString(),
+      });
+      this.SetEditability(false);
+      setTimeout(() => {
+        this.SetLookupText();
+      }, 0);
+      this.LoadData(0);
+      return;
+    }
 
     if (this._entityId.length > 0) {
       this._context.webAPI
@@ -189,6 +217,11 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
 
                     if (tmpLookupId === null) {
                       thisRef.SetEditability(true);
+                    } else {
+                      thisRef.SetEditability(false);
+                      setTimeout(() => {
+                        thisRef.SetLookupText();
+                      }, 0);
                     }
                   },
                   function (error) {
@@ -204,6 +237,11 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
 
               if (tmpLookupId === null) {
                 thisRef.SetEditability(true);
+              } else {
+                thisRef.SetEditability(false);
+                setTimeout(() => {
+                  thisRef.SetLookupText();
+                }, 0);
               }
             }
           },
@@ -485,6 +523,39 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
     this.LoadInitialData();
   };
 
+  componentDidUpdate = (prevProps: iPropsInput) => {
+    // Handle programmatic changes to lookup value
+    if (
+      prevProps.lookupText !== this.props.lookupText ||
+      prevProps.lookupId !== this.props.lookupId
+    ) {
+      const newLookupText = (this.props.lookupText || '').toString();
+      const newLookupId = (this.props.lookupId || '').toString();
+
+      this.setState({
+        lookupText: newLookupText,
+        lookupId: newLookupId,
+      });
+
+      // Update the display text
+      setTimeout(() => {
+        this.SetLookupText();
+        if (newLookupId) {
+          this.SetEditability(false);
+        } else {
+          this.SetEditability(true);
+        }
+      }, 0);
+    }
+
+    // Handle read-only state changes
+    if (prevProps.isReadOnly !== this.props.isReadOnly) {
+      this.setState({
+        isReadOnly: this.props.isReadOnly || false,
+      });
+    }
+  };
+
   SetFilter = () => {
     let tmpSearchText =
       (document.getElementById(this._txtSearchId) as HTMLInputElement).value ?? '';
@@ -567,7 +638,7 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
           tmpLookupField.setValue(lookupValue);
 
           thisRef.setState({
-            lookupText: success.savedEntityReference[0].name,
+            lookupText: success.savedEntityReference[0].name || '',
             lookupId: success.savedEntityReference[0].id,
           });
 
