@@ -1,4 +1,4 @@
-import { IInputs } from "../generated/ManifestTypes";
+import { IInputs } from '../generated/ManifestTypes';
 export default interface iPropsInput {
   isReadOnly: boolean;
   context: ComponentFramework.Context<IInputs>;

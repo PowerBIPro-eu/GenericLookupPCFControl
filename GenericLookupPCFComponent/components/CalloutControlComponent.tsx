@@ -1,10 +1,10 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
-import { IInputs } from "../generated/ManifestTypes";
-import iPropsInput from "../interfaces/iPropsInput";
-import iCreateField from "../interfaces/iCreateField";
-import iField from "../interfaces/iField";
-import { ReactTabulator } from "react-tabulator";
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { IInputs } from '../generated/ManifestTypes';
+import iPropsInput from '../interfaces/iPropsInput';
+import iCreateField from '../interfaces/iCreateField';
+import iField from '../interfaces/iField';
+import { ReactTabulator } from 'react-tabulator';
 import {
   Callout,
   getTheme,
@@ -12,35 +12,35 @@ import {
   mergeStyleSets,
   Spinner,
   SpinnerSize,
-} from "office-ui-fabric-react";
-import iView from "../interfaces/iView";
+} from 'office-ui-fabric-react';
+import iView from '../interfaces/iView';
 
 const theme = getTheme();
 const styles: any = mergeStyleSets({
   buttonArea: {
-    verticalAlign: "top",
-    display: "inline-block",
-    textAlign: "center",
-    margin: "0 100px",
+    verticalAlign: 'top',
+    display: 'inline-block',
+    textAlign: 'center',
+    margin: '0 100px',
     minWidth: 130,
     height: 32,
   },
   gridDivLeft1: {
-    float: "left",
-    width: "100%",
+    float: 'left',
+    width: '100%',
   },
   gridDivRight1: {
-    float: "right",
-    width: "16px%",
-    marginRight: "15px",
-    marginTop: "5px",
+    float: 'right',
+    width: '16px%',
+    marginRight: '15px',
+    marginTop: '5px',
   },
 
   callout: {
     maxWidth: 1000,
   },
   header: {
-    padding: "18px 24px 12px",
+    padding: '18px 24px 12px',
   },
   title: [
     theme.fonts.xLarge,
@@ -50,14 +50,14 @@ const styles: any = mergeStyleSets({
     },
   ],
   inner: {
-    height: "100%",
-    padding: "0 24px 20px",
+    height: '100%',
+    padding: '0 24px 20px',
   },
   actions: {
-    position: "relative",
+    position: 'relative',
     marginTop: 20,
-    width: "100%",
-    whiteSpace: "nowrap",
+    width: '100%',
+    whiteSpace: 'nowrap',
   },
   focusControl: {},
   focusControl1: {},
@@ -87,27 +87,27 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
   _context: ComponentFramework.Context<IInputs>;
   _tmpField: iCreateField;
   _currentFocus = -1;
-  _divSearchForm = "divSearchForm";
+  _divSearchForm = 'divSearchForm';
 
-  _SearchText = "";
+  _SearchText = '';
   _columns: any[] = [];
   _data: any[] = [];
   _recordsThreshHoldLimit: number = 0;
 
-  _originalLookupId: string = "";
-  _originalLookupText: string = "";
-  _placeHolder: string = "Look for ";
-  _entityId: string = "";
-  _entityTypeName: string = "";
+  _originalLookupId: string = '';
+  _originalLookupText: string = '';
+  _placeHolder: string = 'Look for ';
+  _entityId: string = '';
+  _entityTypeName: string = '';
 
-  _txtSearchId = "txtSearch";
-  _divLookupId = "divLookup";
-  _txtDummyId = "txtDummy";
-  _ddlView = "ddlView";
-  _divValidations = "divValidations";
-  _linkLookupText = "linkLookupText";
-  _divTextbox = "divTextbox";
-  _entitySymbol = "";
+  _txtSearchId = 'txtSearch';
+  _divLookupId = 'divLookup';
+  _txtDummyId = 'txtDummy';
+  _ddlView = 'ddlView';
+  _divValidations = 'divValidations';
+  _linkLookupText = 'linkLookupText';
+  _divTextbox = 'divTextbox';
+  _entitySymbol = '';
 
   state = {
     expandValidations: false,
@@ -115,10 +115,10 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
     lookupField: undefined,
     selectedLookupField: undefined,
     data: this._data,
-    filterText: "",
+    filterText: '',
     calloutVisible: false,
-    lookupText: "",
-    lookupId: "",
+    lookupText: '',
+    lookupId: '',
     selectedView: 0,
     showSpinner: false,
     isReadOnly: false,
@@ -127,35 +127,30 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
   constructor(props: iPropsInput) {
     super(props);
     this._context = props.context;
-    this._tmpField = JSON.parse(this._context.parameters.ConfigJSON.raw ?? "");
-    this._entityId = (this._context as any)?.page?.entityId ?? "";
-    this._entityTypeName = (this._context as any)?.page?.entityTypeName ?? "";
+    this._tmpField = JSON.parse(this._context.parameters.ConfigJSON.raw ?? '');
+    this._entityId = (this._context as any)?.page?.entityId ?? '';
+    this._entityTypeName = (this._context as any)?.page?.entityTypeName ?? '';
     this._recordsThreshHoldLimit = this._tmpField.recordsThreshHoldLimit ?? 0;
 
-    this._txtSearchId = "txtSearch" + this._tmpField.name;
-    this._divLookupId = "divLookup" + this._tmpField.name;
-    this._txtDummyId = "txtDummy" + this._tmpField.name;
-    this._ddlView = "ddlView" + this._tmpField.name;
-    this._divValidations = "divValidations" + this._tmpField.name;
-    this._linkLookupText = "linkLookupText" + this._tmpField.name;
-    this._divTextbox = "divTextbox" + this._tmpField.name;
+    this._txtSearchId = 'txtSearch' + this._tmpField.name;
+    this._divLookupId = 'divLookup' + this._tmpField.name;
+    this._txtDummyId = 'txtDummy' + this._tmpField.name;
+    this._ddlView = 'ddlView' + this._tmpField.name;
+    this._divValidations = 'divValidations' + this._tmpField.name;
+    this._linkLookupText = 'linkLookupText' + this._tmpField.name;
+    this._divTextbox = 'divTextbox' + this._tmpField.name;
     this._entitySymbol =
-      "crmSymbolFont entity-symbol " + (this._tmpField.entitySymbol ?? "Account");
+      'crmSymbolFont entity-symbol ' + (this._tmpField.entitySymbol ?? 'Account');
 
     this.setState({ isReadOnly: this.props.isReadOnly });
 
     this.LoadColumns();
-    this._tmpField.lookUpCol?.fitlerTextFields?.forEach(
-      (tmpField: iField, index) => {
-        this._placeHolder = this._placeHolder + tmpField.displayText;
-        if (
-          index <
-          (this._tmpField.lookUpCol?.fitlerTextFields?.length ?? 0) - 1
-        ) {
-          this._placeHolder = this._placeHolder + ", ";
-        }
+    this._tmpField.lookUpCol?.fitlerTextFields?.forEach((tmpField: iField, index) => {
+      this._placeHolder = this._placeHolder + tmpField.displayText;
+      if (index < (this._tmpField.lookUpCol?.fitlerTextFields?.length ?? 0) - 1) {
+        this._placeHolder = this._placeHolder + ', ';
       }
-    );
+    });
   }
 
   LoadInitialData = () => {
@@ -166,36 +161,32 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
         .retrieveRecord(
           this._entityTypeName,
           this._entityId,
-          "?$select=_" + this._tmpField.name + "_value"
+          '?$select=_' + this._tmpField.name + '_value'
         )
         .then(
           function success(result) {
-            let tmpLookupId = result["_" + thisRef._tmpField.name + "_value"];
+            let tmpLookupId = result['_' + thisRef._tmpField.name + '_value'];
             let tmpLookupText =
               result[
-                "_" +
-                  thisRef._tmpField.name +
-                  "_value@OData.Community.Display.V1.FormattedValue"
+                '_' + thisRef._tmpField.name + '_value@OData.Community.Display.V1.FormattedValue'
               ];
-            
-              if (thisRef._tmpField.virtualTable && tmpLookupId) { // VIRTUAL TABLE LOGIC DDSOL
-                const virtTblPk = thisRef._tmpField.lookUpCol?.primaryKey as string;
-                const virtTblName = thisRef._tmpField.lookUpCol?.entity as string;
-                const virtTblNameCol = thisRef._tmpField.lookUpCol?.primaryFeild as string;
-                thisRef._context.webAPI
-                .retrieveMultipleRecords(
-                  virtTblName,
-                  `?$filter=${virtTblPk} eq '${tmpLookupId}'`
-                )
+
+            if (thisRef._tmpField.virtualTable && tmpLookupId) {
+              // VIRTUAL TABLE LOGIC DDSOL
+              const virtTblPk = thisRef._tmpField.lookUpCol?.primaryKey as string;
+              const virtTblName = thisRef._tmpField.lookUpCol?.entity as string;
+              const virtTblNameCol = thisRef._tmpField.lookUpCol?.primaryFeild as string;
+              thisRef._context.webAPI
+                .retrieveMultipleRecords(virtTblName, `?$filter=${virtTblPk} eq '${tmpLookupId}'`)
                 .then(
                   function success(result) {
                     tmpLookupText = result.entities[0][virtTblNameCol];
-        
+
                     thisRef.setState({
                       lookupId: tmpLookupId,
                       lookupText: tmpLookupText,
                     });
-        
+
                     if (tmpLookupId === null) {
                       thisRef.SetEditability(true);
                     }
@@ -204,16 +195,17 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
                     console.log(error.message);
                   }
                 );
-              } else { // REGULAR LOOKUP FINISH
-                thisRef.setState({
-                  lookupId: tmpLookupId,
-                  lookupText: tmpLookupText,
-                });
-    
-                if (tmpLookupId === null) {
-                  thisRef.SetEditability(true);
-                }
-              }            
+            } else {
+              // REGULAR LOOKUP FINISH
+              thisRef.setState({
+                lookupId: tmpLookupId,
+                lookupText: tmpLookupText,
+              });
+
+              if (tmpLookupId === null) {
+                thisRef.SetEditability(true);
+              }
+            }
           },
           function (error) {
             console.log(error.message);
@@ -241,41 +233,41 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
   CloseLookupDialog = (lookupObj: any) => {
     this.setState({
       isLookupOpen: false,
-      selectedLookupField: "unknown",
+      selectedLookupField: 'unknown',
     });
   };
 
   GetLookupText = (tmpField: iCreateField) => {
-    return "---";
+    return '---';
   };
 
   LoadColumns = () => {
     this._columns.push({
       formatter: (cell: any) => this.SelectFormatter(cell),
-      align: "center",
+      align: 'center',
       headerSort: false,
       width: 40,
-      field: "select",
+      field: 'select',
     });
 
     this._tmpField.lookUpCol?.fieldsToShow?.forEach((tmp: iField) => {
       let tmpCol = {
         title: tmp.displayText,
         field: tmp.name,
-        headerFilter: "input",
+        headerFilter: 'input',
         width: tmp.width,
-        resizable: false
+        resizable: false,
       };
       this._columns.push(tmpCol);
     });
   };
   SelectFormatter = (cell: any) => {
     let thisRef = this;
-    let tmpCheckbox = document.createElement("label");
-    tmpCheckbox.className = "custom-checkbox";
+    let tmpCheckbox = document.createElement('label');
+    tmpCheckbox.className = 'custom-checkbox';
     tmpCheckbox.innerHTML = "<input type='checkbox'><span class='checkmark'></span>";
     tmpCheckbox.tabIndex = -1;
-    tmpCheckbox.setAttribute("aria-label", "Select Record");
+    tmpCheckbox.setAttribute('aria-label', 'Select Record');
     // let tmpAnchor = document.createElement("a");
     // tmpAnchor.href = "#";
     // tmpAnchor.id = "lnk" + cell.getRow().getPosition(true);
@@ -285,12 +277,8 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
     // tmpAnchor.setAttribute("aria-label", "Select Record");
     tmpCheckbox.onclick = (e) => {
       e.preventDefault();
-      let tmpSelectedItem = cell.getRow().getData()[
-        this._tmpField.lookUpCol?.primaryFeild ?? ""
-      ];
-      let tmpSelectedItemId = cell.getRow().getData()[
-        this._tmpField.lookUpCol?.primaryKey ?? ""
-      ];
+      let tmpSelectedItem = cell.getRow().getData()[this._tmpField.lookUpCol?.primaryFeild ?? ''];
+      let tmpSelectedItemId = cell.getRow().getData()[this._tmpField.lookUpCol?.primaryKey ?? ''];
 
       thisRef.setState({
         lookupText: tmpSelectedItem,
@@ -316,24 +304,18 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
   };
   LoadData = (selectedViewId: number) => {
     let thisRef = this;
-    this._SearchText =
-      (document.getElementById(this._txtSearchId) as HTMLInputElement).value ??
-      "";
+    this._SearchText = (document.getElementById(this._txtSearchId) as HTMLInputElement).value ?? '';
     if (this._tmpField.exterCall) {
       this._context.webAPI
         .retrieveMultipleRecords(
-          "webresource",
-          "?$filter=name eq '" +
-            this._tmpField.exterCall.webResource +
-            "'&$top=1"
+          'webresource',
+          "?$filter=name eq '" + this._tmpField.exterCall.webResource + "'&$top=1"
         )
         .then(
           function success(result) {
             if (result.entities.length > 0) {
               var config = result.entities[0];
-              let copyFunction = new Function(
-                "return " + atob(config.content)
-              )();
+              let copyFunction = new Function('return ' + atob(config.content))();
               copyFunction(thisRef);
             } else {
             }
@@ -354,105 +336,98 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
   LoadDataFromFetchXML = async (selectedViewId: number) => {
     let thisref = this;
     if (this._tmpField?.lookUpCol?.views) {
-      let fetchXml =
-        this._tmpField?.lookUpCol?.views[selectedViewId]?.fetchXml ?? "";
-      let tmpConditions = "";
+      let fetchXml = this._tmpField?.lookUpCol?.views[selectedViewId]?.fetchXml ?? '';
+      let tmpConditions = '';
       if (this._SearchText) {
-        let tmpSearchVals = this._SearchText.split(",");
-        this._tmpField.lookUpCol.fitlerTextFields?.forEach(
-          (tmpField: iField, index) => {
-            let tmpSearchVal = "";
-            if (tmpSearchVals.length > index)
-              tmpSearchVal = tmpSearchVals[index]?.trim();
-            if (tmpSearchVal?.trim().length > 0) {
-              tmpConditions =
-                tmpConditions +
-                "<condition attribute='" +
-                tmpField.name +
-                "' operator='like' value='%" +
-                tmpSearchVal +
-                "%' />";
-            }
+        let tmpSearchVals = this._SearchText.split(',');
+        this._tmpField.lookUpCol.fitlerTextFields?.forEach((tmpField: iField, index) => {
+          let tmpSearchVal = '';
+          if (tmpSearchVals.length > index) tmpSearchVal = tmpSearchVals[index]?.trim();
+          if (tmpSearchVal?.trim().length > 0) {
+            tmpConditions =
+              tmpConditions +
+              "<condition attribute='" +
+              tmpField.name +
+              "' operator='like' value='%" +
+              tmpSearchVal +
+              "%' />";
           }
-        );
+        });
       }
-      fetchXml = fetchXml.replace("<MORECONDITIONS/>", tmpConditions);
+      fetchXml = fetchXml.replace('<MORECONDITIONS/>', tmpConditions);
 
       // implement advanced dynamic FetchXML filters from JSON config
-      this._tmpField.advancedFetchXmlFilters.forEach(filterObj => {
+      this._tmpField.advancedFetchXmlFilters.forEach((filterObj) => {
         // @ts-ignore
-        const filterValue = Xrm.Page.getAttribute(filterObj.filterByLookupField).getValue()?.[0]?.id;
+        const filterValue = Xrm.Page.getAttribute(filterObj.filterByLookupField).getValue()?.[0]
+          ?.id;
         fetchXml = fetchXml.replace(filterObj.filterPlaceholder, filterValue);
       });
 
       // Fetch the user's division code and replace the placeholder
       if (this._tmpField?.filterByUserDivisionHyperionNumberFetchXml) {
-          const divisionCode = await this.fetchUserDivisionCodeWithExpand();
-          if (divisionCode) {
-              fetchXml = fetchXml.replace("DivisionHyperionNumber", divisionCode);
-          }
+        const divisionCode = await this.fetchUserDivisionCodeWithExpand();
+        if (divisionCode) {
+          fetchXml = fetchXml.replace('DivisionHyperionNumber', divisionCode);
+        }
       }
 
-      fetchXml = "?fetchXml=" + encodeURIComponent(fetchXml);
-      this._context.webAPI.retrieveMultipleRecords(this._tmpField.lookUpCol?.entity??"", fetchXml).then(
-        function success(result) {
-          thisref.PopulateData(result);
-        },
-        function (error) {
-          console.log(error.message);
-        }
-      );
+      fetchXml = '?fetchXml=' + encodeURIComponent(fetchXml);
+      this._context.webAPI
+        .retrieveMultipleRecords(this._tmpField.lookUpCol?.entity ?? '', fetchXml)
+        .then(
+          function success(result) {
+            thisref.PopulateData(result);
+          },
+          function (error) {
+            console.log(error.message);
+          }
+        );
     }
   };
   private async fetchUserDivisionCodeWithExpand(): Promise<string | null> {
-      const userId = this._context.userSettings.userId;
-      const entityName = "systemuser";
-      const options = `?$select=_businessunitid_value&$expand=businessunitid($select=crf44_divisioncode)&$filter=systemuserid eq ${userId}`;
+    const userId = this._context.userSettings.userId;
+    const entityName = 'systemuser';
+    const options = `?$select=_businessunitid_value&$expand=businessunitid($select=crf44_divisioncode)&$filter=systemuserid eq ${userId}`;
 
-      try {
-          const userRecord = await this._context.webAPI.retrieveRecord(entityName, userId, options);
-          if (userRecord && userRecord.businessunitid && userRecord.businessunitid.crf44_divisioncode) {
-              return userRecord.businessunitid.crf44_divisioncode;
-          }
-      } catch (error) {
-          console.error("Error fetching user's division code with expand:", error);
+    try {
+      const userRecord = await this._context.webAPI.retrieveRecord(entityName, userId, options);
+      if (userRecord && userRecord.businessunitid && userRecord.businessunitid.crf44_divisioncode) {
+        return userRecord.businessunitid.crf44_divisioncode;
       }
-      return null;
+    } catch (error) {
+      console.error("Error fetching user's division code with expand:", error);
+    }
+    return null;
   }
 
   LoadDataFromNonFetchXML = () => {
     let tmpSearchText =
-      (document.getElementById(this._txtSearchId) as HTMLInputElement).value ??
-      "";
+      (document.getElementById(this._txtSearchId) as HTMLInputElement).value ?? '';
 
-    let tmpSelect = "?$select=";
+    let tmpSelect = '?$select=';
     this._tmpField.lookUpCol?.fieldsToShow?.forEach((tmp: iField) => {
-      tmpSelect = tmpSelect + tmp.name + ",";
+      tmpSelect = tmpSelect + tmp.name + ',';
     });
     tmpSelect = tmpSelect + this._tmpField.lookUpCol?.primaryKey;
-    let tmpQueryFilter = "";
+    let tmpQueryFilter = '';
     let tmpFilters: string[] = [];
     if (tmpSearchText.length > 0) {
-      tmpQueryFilter = "&$filter=";
-      let tmpSearchVals = tmpSearchText.split(",");
-      this._tmpField?.lookUpCol?.fitlerTextFields?.forEach(
-        (tmpField: iField, index) => {
-          let tmpSearchVal = "";
-          if (tmpSearchVals.length > index)
-            tmpSearchVal = tmpSearchVals[index]?.trim();
-          if (tmpSearchVal?.trim().length > 0) {
-            tmpFilters.push(
-              "contains(" + tmpField.name + ", '" + tmpSearchVal + "')"
-            );
-          }
+      tmpQueryFilter = '&$filter=';
+      let tmpSearchVals = tmpSearchText.split(',');
+      this._tmpField?.lookUpCol?.fitlerTextFields?.forEach((tmpField: iField, index) => {
+        let tmpSearchVal = '';
+        if (tmpSearchVals.length > index) tmpSearchVal = tmpSearchVals[index]?.trim();
+        if (tmpSearchVal?.trim().length > 0) {
+          tmpFilters.push('contains(' + tmpField.name + ", '" + tmpSearchVal + "')");
         }
-      );
+      });
     }
 
     tmpFilters.forEach((tmpstr: string, index) => {
       tmpQueryFilter = tmpQueryFilter + tmpstr;
       if (index < tmpFilters.length - 1) {
-        tmpQueryFilter = tmpQueryFilter + " and ";
+        tmpQueryFilter = tmpQueryFilter + ' and ';
       }
     });
 
@@ -462,10 +437,7 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
     if (tmpQueryFilter) tmpOptions = tmpOptions + tmpQueryFilter;
 
     this._context.webAPI
-      .retrieveMultipleRecords(
-        this._tmpField.lookUpCol?.entity ?? "",
-        tmpOptions
-      )
+      .retrieveMultipleRecords(this._tmpField.lookUpCol?.entity ?? '', tmpOptions)
       .then(
         function success(result) {
           thisRef.PopulateData(result);
@@ -480,9 +452,9 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
     let tmpData = [];
     for (var i = 0; i < result.entities.length; i++) {
       let tmpItem: any = {};
-      tmpItem["select"] = "select";
-      tmpItem[this._tmpField.lookUpCol?.primaryKey ?? ""] =
-        result.entities[i][this._tmpField.lookUpCol?.primaryKey ?? ""];
+      tmpItem['select'] = 'select';
+      tmpItem[this._tmpField.lookUpCol?.primaryKey ?? ''] =
+        result.entities[i][this._tmpField.lookUpCol?.primaryKey ?? ''];
       this._tmpField.lookUpCol?.fieldsToShow?.forEach((tmp: iField) => {
         if (tmp.name) {
           tmpItem[tmp.name] = result.entities[i][tmp.name];
@@ -504,7 +476,7 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
     if (this._tmpField.openSearchPanelOnKeyDown) {
       let txtSearchBox = document.getElementById(this._txtSearchId);
 
-      txtSearchBox?.addEventListener("input", function (e) {
+      txtSearchBox?.addEventListener('input', function (e) {
         txtSearchBox?.focus();
         thisref.OpenCallOut();
         thisref.SetFilter();
@@ -515,20 +487,19 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
 
   SetFilter = () => {
     let tmpSearchText =
-      (document.getElementById(this._txtSearchId) as HTMLInputElement).value ??
-      "";
+      (document.getElementById(this._txtSearchId) as HTMLInputElement).value ?? '';
 
     if (tmpSearchText) {
       let tmpFinalFilters: any = [];
-      tmpFinalFilters.push({ field: "select", type: "=", value: "select" });
+      tmpFinalFilters.push({ field: 'select', type: '=', value: 'select' });
 
       let tmpFilters: any = [];
 
       this._tmpField.lookUpCol?.fieldsToShow?.forEach((tmp: iField) => {
         let tmpFilter: any = {};
-        tmpFilter["field"] = tmp.name;
-        tmpFilter["type"] = "like";
-        tmpFilter["value"] = tmpSearchText;
+        tmpFilter['field'] = tmp.name;
+        tmpFilter['type'] = 'like';
+        tmpFilter['value'] = tmpSearchText;
 
         tmpFilters.push(tmpFilter);
       });
@@ -552,23 +523,23 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
     let divValidations = document.getElementById(this._divValidations);
 
     if (boolEditable) {
-      divLookup?.style.setProperty("display", "none");
-      divTextbox?.style.setProperty("display", "inline");
-      if (this._tmpField.validation?.type === "Required") {
-        divValidations?.classList.remove("egmtValidationDivHide");
-        divValidations?.classList.add("egmtValidationDiv");
+      divLookup?.style.setProperty('display', 'none');
+      divTextbox?.style.setProperty('display', 'inline');
+      if (this._tmpField.validation?.type === 'Required') {
+        divValidations?.classList.remove('egmtValidationDivHide');
+        divValidations?.classList.add('egmtValidationDiv');
       }
     } else {
-      divLookup?.style.setProperty("display", "inline");
-      divTextbox?.style.setProperty("display", "none");
-      divValidations?.classList.remove("egmtValidationDiv");
-      divValidations?.classList.add("egmtValidationDivHide");
+      divLookup?.style.setProperty('display', 'inline');
+      divTextbox?.style.setProperty('display', 'none');
+      divValidations?.classList.remove('egmtValidationDiv');
+      divValidations?.classList.add('egmtValidationDivHide');
     }
   };
 
   SetLookupText = () => {
     let linkLookupText = document.getElementById(this._linkLookupText);
-    if (linkLookupText) linkLookupText.innerText = this.state.lookupText ?? "";
+    if (linkLookupText) linkLookupText.innerText = this.state.lookupText ?? '';
   };
   OnViewChange = () => {
     this.setState({ data: [], showSpinner: true });
@@ -580,7 +551,7 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
     let thisRef = this;
     this._context.navigation
       .openForm({
-        entityName: this._tmpField.lookUpCol?.entity ?? "",
+        entityName: this._tmpField.lookUpCol?.entity ?? '',
         useQuickCreateForm: true,
       })
       .then(
@@ -589,8 +560,7 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
           lookupValue[0] = new Object();
           lookupValue[0].id = success.savedEntityReference[0].id;
           lookupValue[0].name = success.savedEntityReference[0].name;
-          lookupValue[0].entityType = (success
-            .savedEntityReference[0] as any).entityType;
+          lookupValue[0].entityType = (success.savedEntityReference[0] as any).entityType;
 
           // @ts-ignore
           let tmpLookupField = Xrm.Page.getAttribute(thisRef._tmpField.name);
@@ -613,56 +583,51 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
     e.preventDefault();
     if (this._tmpField.lookUpCol?.pageUrl) {
       let tmpLink = this._tmpField.lookUpCol?.pageUrl + this._entityId;
-      window.open(tmpLink, "_self");
+      window.open(tmpLink, '_self');
     }
   };
 
   ClearSelection = () => {
     // @ts-ignore
     Xrm.Page.getAttribute(this._tmpField.name).setValue();
-  }
+  };
 
   public render() {
     const options = {
       layoutColumnsOnNewData: true,
       tooltips: true, //show tool tips on cells
-      addRowPos: "top", //when adding a new row, add it to the top of the table
+      addRowPos: 'top', //when adding a new row, add it to the top of the table
       history: true, //allow undo and redo actions on the table
       //resizableRows: true, //allow row order to be changed
       height: 590,
-      pagination: "local",
+      pagination: 'local',
       paginationSize: 15,
-      placeholder: "No Data Available",
+      placeholder: 'No Data Available',
       rowHeight: 30,
       movableColumns: false,
-      selectable: false
+      selectable: false,
     };
     return (
       <div>
         <div>
-          <div className={`egmtCreateDivMain ${this.state.isReadOnly || this._tmpField.isDisplayOnly ? 'disabled' : ''}`} id="divCreateDetail">
+          <div
+            className={`egmtCreateDivMain ${
+              this.state.isReadOnly || this._tmpField.isDisplayOnly ? 'disabled' : ''
+            }`}
+            id="divCreateDetail"
+          >
             <div className="egmtCreateDivWrapper">
               <div role="presentation" className="egmtCreateDiv">
                 <div role="presentation" className="egmtCreateDiv2">
                   <div role="presentation" className="egmtCreateDiv9">
-                    <div
-                      className={
-                        styles[this._tmpField?.focusControl ?? "focusControl"]
-                      }
-                    >
+                    <div className={styles[this._tmpField?.focusControl ?? 'focusControl']}>
                       <span className="gridLookupContainer">
                         <div>
-                          <div
-                            className="glAutocomplete"
-                            style={{ width: "100%" }}
-                          >
+                          <div className="glAutocomplete" style={{ width: '100%' }}>
                             <div className="glDisplayFlex">
-                              <div
-                                className="gridDivLeft"
-                                id={this._divLookupId}
-                              >
+                              <div className="gridDivLeft" id={this._divLookupId}>
                                 <div
-                                  style={{ display: "inline" }}
+                                  style={{ display: 'inline' }}
                                   id="divMapped"
                                   className="glDivMapped"
                                 >
@@ -670,8 +635,17 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
                                     <li className="glLi">
                                       <div role="link" className="glLinkLiv">
                                         <div>
-                                          {this._tmpField.entityCustomImage && <img src={"/webresources/"+this._tmpField.entityCustomImage} style={{width: "16px"}}></img>}
-                                          {this._entitySymbol && <span className={this._entitySymbol}></span>}
+                                          {this._tmpField.entityCustomImage && (
+                                            <img
+                                              src={
+                                                '/webresources/' + this._tmpField.entityCustomImage
+                                              }
+                                              style={{ width: '16px' }}
+                                            ></img>
+                                          )}
+                                          {this._entitySymbol && (
+                                            <span className={this._entitySymbol}></span>
+                                          )}
                                         </div>
                                         <div className="glText">
                                           <a
@@ -687,7 +661,7 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
                                           </a>
                                         </div>
                                       </div>
-                                      {!this.state.isReadOnly && !this._tmpField.isDisplayOnly &&
+                                      {!this.state.isReadOnly && !this._tmpField.isDisplayOnly && (
                                         <button
                                           type="button"
                                           className="gl_button_close"
@@ -702,7 +676,7 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
                                             </span>
                                           </span>
                                         </button>
-                                      }
+                                      )}
                                     </li>
                                   </ul>
                                 </div>
@@ -710,7 +684,7 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
                               <div
                                 className="gridDivLeft"
                                 id={this._divTextbox}
-                                style={{ display: "none" }}
+                                style={{ display: 'none' }}
                               >
                                 <input
                                   id={this._txtSearchId}
@@ -721,38 +695,43 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
                                   placeholder="---"
                                   disabled={this.state.isReadOnly || this._tmpField.isDisplayOnly}
                                   onKeyDown={(event) => {
-                                    if (event.key === 'Enter' && !this.state.isReadOnly && !this._tmpField.isDisplayOnly) {
+                                    if (
+                                      event.key === 'Enter' &&
+                                      !this.state.isReadOnly &&
+                                      !this._tmpField.isDisplayOnly
+                                    ) {
                                       this.OnSearchClick();
                                     }
                                   }}
                                   onMouseOver={(e) => {
                                     if (!this.state.isReadOnly && !this._tmpField.isDisplayOnly) {
-                                      (e.target as HTMLInputElement).placeholder = this._placeHolder;
+                                      (e.target as HTMLInputElement).placeholder =
+                                        this._placeHolder;
                                     }
                                   }}
                                   onMouseOut={(e) => {
                                     if (!this.state.isReadOnly && !this._tmpField.isDisplayOnly) {
-                                      (e.target as HTMLInputElement).placeholder = "---";
+                                      (e.target as HTMLInputElement).placeholder = '---';
                                     }
                                   }}
                                 ></input>
                               </div>
                               <div className="gridDivRight">
-                              {!this.state.isReadOnly && !this._tmpField.isDisplayOnly &&
-                                <button
-                                  id="btnSearch"
-                                  className="gl_button"
-                                  onClick={() => {
-                                    this.OnSearchClick();
-                                  }}
-                                >
-                                  <span className="gl_span">
-                                    <span className="gl_span_span">
-                                      <span className="gl_span_span_icon symbolFont SearchButton-symbol"></span>
+                                {!this.state.isReadOnly && !this._tmpField.isDisplayOnly && (
+                                  <button
+                                    id="btnSearch"
+                                    className="gl_button"
+                                    onClick={() => {
+                                      this.OnSearchClick();
+                                    }}
+                                  >
+                                    <span className="gl_span">
+                                      <span className="gl_span_span">
+                                        <span className="gl_span_span_icon symbolFont SearchButton-symbol"></span>
+                                      </span>
                                     </span>
-                                  </span>
-                                </button>
-                              }
+                                  </button>
+                                )}
                               </div>
                             </div>
 
@@ -766,47 +745,41 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
                                     role="alertdialog"
                                     gapSpace={0}
                                     target={`.${
-                                      styles[
-                                        this._tmpField.focusControl ??
-                                          "focusControl"
-                                      ]
+                                      styles[this._tmpField.focusControl ?? 'focusControl']
                                     }`}
                                     onDismiss={this.CloseCallOut}
                                     setInitialFocus
-                                    style={{overflowX: "scroll"}}
+                                    style={{ overflowX: 'scroll' }}
                                   >
-                                    <h3 style={{padding: "10px"}}>{this._tmpField.calloutTitle}</h3>
+                                    <h3 style={{ padding: '10px' }}>
+                                      {this._tmpField.calloutTitle}
+                                    </h3>
                                     <table className="glTable">
                                       <thead className="glThead">
                                         <td colSpan={2}>
                                           <table>
                                             <tr>
                                               <td>
-                                                {this._tmpField
-                                                  .openSearchPanelOnKeyDown && (
+                                                {this._tmpField.openSearchPanelOnKeyDown && (
                                                   <input
                                                     className="glDummyTextBox"
                                                     id={this._txtDummyId}
                                                     onFocus={() => {
                                                       document
-                                                        .getElementById(
-                                                          this._txtSearchId
-                                                        )
+                                                        .getElementById(this._txtSearchId)
                                                         ?.focus();
                                                     }}
                                                   ></input>
                                                 )}
                                               </td>
-                                              {this._tmpField.infoText &&
+                                              {this._tmpField.infoText && (
                                                 <td>
                                                   <div className="WarningToopBarDiv">
                                                     <div className="warningIcon"></div>
-                                                    <div>
-                                                      {this._tmpField.infoText} 
-                                                    </div>
+                                                    <div>{this._tmpField.infoText}</div>
                                                   </div>
                                                 </td>
-                                              }
+                                              )}
                                             </tr>
                                           </table>
                                         </td>
@@ -814,12 +787,11 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
 
                                       {this.state.showSpinner && (
                                         <tr>
-                                          <td
-                                            colSpan={2}
-                                            align="center"
-                                            className="tdSpinner"
-                                          >
-                                            <Spinner label="Loading data" size={SpinnerSize.large} />
+                                          <td colSpan={2} align="center" className="tdSpinner">
+                                            <Spinner
+                                              label="Loading data"
+                                              size={SpinnerSize.large}
+                                            />
                                           </td>
                                         </tr>
                                       )}
@@ -854,9 +826,7 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
           </div>
           <div className="egmtValidationDivHide" id={this._divValidations}>
             <div className="errorIcon"></div>
-            <span className="egmtValidationMsg">
-              {this._tmpField.validation?.message}
-            </span>
+            <span className="egmtValidationMsg">{this._tmpField.validation?.message}</span>
           </div>
         </div>
       </div>

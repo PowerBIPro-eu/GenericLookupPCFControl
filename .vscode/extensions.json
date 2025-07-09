@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "DotJoshJohnson.xml",
+    "ms-vscode.vscode-typescript-next"
+  ]
+}

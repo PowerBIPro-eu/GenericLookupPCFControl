@@ -1,4 +1,4 @@
-import iModalDailog from "./iModalDailog";
+import iModalDailog from './iModalDailog';
 
 export default interface iExtraColumn {
   displayName: string;

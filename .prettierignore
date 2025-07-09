@@ -1,0 +1,24 @@
+# Shared Prettier ignore patterns for all TypeScript projects
+
+# Auto-generated files
+**/src/dataverse-gen/
+
+# Config files
+webpack.config.js
+eslint.config.mjs
+*.config.js
+*.config.mjs
+
+# XML files (formatted by XML Tools instead)
+*.xml
+
+# Node modules
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Package lock files
+package-lock.json
+yarn.lock

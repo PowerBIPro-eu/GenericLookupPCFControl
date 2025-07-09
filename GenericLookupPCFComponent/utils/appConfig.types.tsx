@@ -1,4 +1,4 @@
-import { IInputs } from "../generated/ManifestTypes";
+import { IInputs } from '../generated/ManifestTypes';
 
 export interface IAppConfig {
   readonly Context: ComponentFramework.Context<IInputs>;

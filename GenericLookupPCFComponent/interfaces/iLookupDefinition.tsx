@@ -1,5 +1,5 @@
-import { IInputs } from "../generated/ManifestTypes";
-import iLookupFieldDefinition from "./iLookupFieldDefinition";
+import { IInputs } from '../generated/ManifestTypes';
+import iLookupFieldDefinition from './iLookupFieldDefinition';
 
 export default interface iLookupDefinition {
   lookupField?: iLookupFieldDefinition;

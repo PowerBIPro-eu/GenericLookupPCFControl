@@ -1,0 +1,37 @@
+{
+  // Local workspace settings - minimal overrides only
+
+  // Disable global default formatter for XML files
+  "editor.defaultFormatter": null,
+
+  // XML-specific settings (not in workspace file)
+  "[xml]": {
+    "editor.defaultFormatter": "DotJoshJohnson.xml",
+    "editor.formatOnSave": false,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.detectIndentation": false,
+    "editor.autoIndent": "full"
+  },
+
+  // XML Tools specific settings (using documented settings only)
+  "xmlTools.enableXmlTreeView": true,
+  "xmlTools.enableXmlTreeViewCursorSync": false,
+  "xmlTools.enableXmlTreeViewMetadata": true,
+  "xmlTools.enforcePrettySelfClosingTagOnFormat": false,
+  "xmlTools.ignoreDefaultNamespace": true,
+  "xmlTools.persistXPathQuery": false,
+  "xmlTools.removeCommentsOnMinify": false,
+  "xmlTools.splitAttributesOnFormat": false,
+  "xmlTools.splitXmlnsOnFormat": true,
+  "xmlTools.xmlFormatterImplementation": "classic",
+
+  // ESLint path override (since eslint.config.mjs is in subfolder)
+  "eslint.workingDirectories": ["./GenericLookupPCFComponent/"],
+  "eslint.options": {
+    "overrideConfigFile": "./GenericLookupPCFComponent/eslint.config.mjs"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}

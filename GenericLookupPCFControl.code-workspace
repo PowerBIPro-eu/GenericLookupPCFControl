@@ -1,0 +1,59 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    // Global formatting settings for ALL projects
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit",
+      "source.organizeImports": "never"
+    },
+
+    // ESLint settings for ALL TypeScript projects (shared config)
+    "eslint.enable": true,
+    "eslint.format.enable": false,
+    "eslint.validate": ["javascript", "typescript"],
+    "eslint.ignoreUntitled": true,
+    "eslint.probe": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+    "eslint.options": {
+      "overrideConfigFile": "./eslint.config.mjs"
+    },
+
+    // TypeScript/JavaScript preferences
+    "typescript.preferences.quoteStyle": "single",
+    "javascript.preferences.quoteStyle": "single",
+
+    // Language-specific formatter settings
+    "[typescript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.formatOnSave": true
+    },
+    "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.formatOnSave": true
+    },
+    "[json]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+
+    // Prettier configuration (applies to all projects)
+    "prettier.singleQuote": true,
+    "prettier.useTabs": false,
+    "prettier.tabWidth": 2,
+    "prettier.semi": true,
+    "prettier.bracketSpacing": true,
+    "prettier.endOfLine": "auto",
+    "prettier.trailingComma": "es5",
+    "prettier.printWidth": 100,
+
+    // File associations for all projects
+    "files.associations": {
+      "webpack.config.js": "javascript",
+      "eslint.config.mjs": "javascript"
+    }
+  }
+}

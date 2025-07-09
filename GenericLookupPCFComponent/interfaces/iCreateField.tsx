@@ -1,6 +1,6 @@
-import iCreateValidation from "./iCreateValidation";
-import iExternalCall from "./iExternalCall";
-import iLookupFieldDefinition from "./iLookupFieldDefinition";
+import iCreateValidation from './iCreateValidation';
+import iExternalCall from './iExternalCall';
+import iLookupFieldDefinition from './iLookupFieldDefinition';
 
 type AdvancedFetchXmlFilterArray = {
   filterPlaceholder: string;

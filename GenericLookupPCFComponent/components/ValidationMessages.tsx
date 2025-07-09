@@ -1,7 +1,7 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
-import iMessage from "../interfaces/iMessage";
-import iMessages from "../interfaces/iMessages";
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import iMessage from '../interfaces/iMessage';
+import iMessages from '../interfaces/iMessages';
 
 class ValidationMessages extends React.Component<iMessages> {
   state = {
@@ -16,7 +16,7 @@ class ValidationMessages extends React.Component<iMessages> {
       <div>
         <div
           className={`SaveStatusBarDiv btn-toolbar ${
-            this.props.validations.length > 0 ? "ShowElement" : "HideElement"
+            this.props.validations.length > 0 ? 'ShowElement' : 'HideElement'
           }`}
         >
           <div
@@ -27,19 +27,16 @@ class ValidationMessages extends React.Component<iMessages> {
           >
             <div className="errorIcon"></div>
             <div role="alert" aria-live="assertive">
-              You have {this.props.validations.length} notifications. Select to
-              view.
+              You have {this.props.validations.length} notifications. Select to view.
             </div>
           </div>
           <div
             tabIndex={0}
-            className={`${
-              this.state.expandValidations ? "ShowElementBlock" : "HideElement"
-            }`}
+            className={`${this.state.expandValidations ? 'ShowElementBlock' : 'HideElement'}`}
           >
             <div>
-              {this.props.validations.map((e: iMessage) => (
-                <div className="ErrorMessagesDiv">
+              {this.props.validations.map((e: iMessage, index: number) => (
+                <div key={index} className="ErrorMessagesDiv">
                   <div className="errorIcon"></div>
                   <div role="alert" aria-live="assertive">
                     {e.message}
@@ -52,7 +49,7 @@ class ValidationMessages extends React.Component<iMessages> {
 
         <div
           className={`SaveStatusBarDiv btn-toolbar ${
-            this.props.warnings.length > 0 ? "ShowElement" : "HideElement"
+            this.props.warnings.length > 0 ? 'ShowElement' : 'HideElement'
           }`}
         >
           <div
@@ -63,19 +60,16 @@ class ValidationMessages extends React.Component<iMessages> {
           >
             <div className="warningIcon"></div>
             <div role="alert" aria-live="assertive">
-              You have {this.props.warnings.length} notifications. Select to
-              view.
+              You have {this.props.warnings.length} notifications. Select to view.
             </div>
           </div>
           <div
             tabIndex={0}
-            className={`${
-              this.state.expandValidations ? "ShowElementBlock" : "HideElement"
-            }`}
+            className={`${this.state.expandValidations ? 'ShowElementBlock' : 'HideElement'}`}
           >
             <div>
-              {this.props.warnings.map((e: iMessage) => (
-                <div className="ErrorMessagesDiv">
+              {this.props.warnings.map((e: iMessage, index: number) => (
+                <div key={index} className="ErrorMessagesDiv">
                   <div className="warningIcon"></div>
                   <div role="alert" aria-live="assertive">
                     {e.message}

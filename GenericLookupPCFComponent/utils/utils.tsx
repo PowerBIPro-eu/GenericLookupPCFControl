@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 
 export abstract class StringUtils {
-  public static stringifyProperties(
-    inputProps: { [key: string]: unknown } | null | undefined
-  ): { [key: string]: string } {
+  public static stringifyProperties(inputProps: { [key: string]: unknown } | null | undefined): {
+    [key: string]: string;
+  } {
     if (!inputProps) {
       return {};
     }
@@ -40,26 +40,19 @@ export function IsEmpty(obj: any) {
     obj === undefined ||
     obj === null ||
     obj?.toString().trim().length === 0 ||
-    obj?.toString() === "0"
+    obj?.toString() === '0'
   )
     return true;
   else return false;
 }
 
 export function MandatoryitleFormatter(title: string) {
-  return (
-    "<div aria-hidden='true' class='header_required_icon'>*</div> " + title
-  );
+  return "<div aria-hidden='true' class='header_required_icon'>*</div> " + title;
 }
 
 export function IsDropdownChanged(originalValue: any, newValue: any) {
   if (originalValue === null || originalValue === undefined) {
-    if (
-      newValue === null ||
-      newValue === undefined ||
-      newValue?.toString() === "0"
-    )
-      return false;
+    if (newValue === null || newValue === undefined || newValue?.toString() === '0') return false;
     else return true;
   }
   return originalValue.toString() !== newValue.toString();
@@ -71,7 +64,7 @@ export function IsTexChanged(originalValue: any, newValue: any) {
       newValue === null ||
       newValue === undefined ||
       newValue?.toString().trim().length === 0 ||
-      newValue?.toString() === "---"
+      newValue?.toString() === '---'
     )
       return false;
     else return true;
