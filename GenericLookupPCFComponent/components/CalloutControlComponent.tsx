@@ -140,7 +140,7 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
     this._linkLookupText = "linkLookupText" + this._tmpField.name;
     this._divTextbox = "divTextbox" + this._tmpField.name;
     this._entitySymbol =
-      "crmSymbolFont entity-symbol " + this._tmpField.entitySymbol ?? "Account";
+      "crmSymbolFont entity-symbol " + (this._tmpField.entitySymbol ?? "Account");
 
     this.setState({ isReadOnly: this.props.isReadOnly });
 
@@ -513,21 +513,6 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
     this.LoadInitialData();
   };
 
-  componentDidUpdate = (prevProps: iPropsInput) => {
-    if (this.props.lookupText !== prevProps.lookupText
-      && this.props.lookupId !== undefined && this.props.lookupId !== '' && this.props.lookupId !== null
-      && this.props.lookupText !== undefined && this.props.lookupText !== '' && this.props.lookupText !== null) {
-        this.setState({ lookupText: this.props.lookupText, lookupId: this.props.lookupId }, () => {
-            this.SetLookupText();
-            this.SetEditability(false);
-        });
-    }
-    // Check if isReadOnly prop has changed
-    if (this.props.isReadOnly !== prevProps.isReadOnly) {
-        this.setState({ isReadOnly: this.props.isReadOnly });
-    }
-  };
-
   SetFilter = () => {
     let tmpSearchText =
       (document.getElementById(this._txtSearchId) as HTMLInputElement).value ??
@@ -736,20 +721,18 @@ class CalloutControlComponent extends React.Component<iPropsInput> {
                                   placeholder="---"
                                   disabled={this.state.isReadOnly || this._tmpField.isDisplayOnly}
                                   onKeyDown={(event) => {
-                                    if (event.key === 'Enter') {
-                                      {!this.state.isReadOnly && !this._tmpField.isDisplayOnly &&
-                                        this.OnSearchClick();
-                                      }
+                                    if (event.key === 'Enter' && !this.state.isReadOnly && !this._tmpField.isDisplayOnly) {
+                                      this.OnSearchClick();
                                     }
                                   }}
                                   onMouseOver={(e) => {
-                                    {!this.state.isReadOnly && !this._tmpField.isDisplayOnly &&
-                                      ((e.target as HTMLInputElement).placeholder = this._placeHolder)
+                                    if (!this.state.isReadOnly && !this._tmpField.isDisplayOnly) {
+                                      (e.target as HTMLInputElement).placeholder = this._placeHolder;
                                     }
                                   }}
                                   onMouseOut={(e) => {
-                                    {!this.state.isReadOnly && !this._tmpField.isDisplayOnly &&
-                                      ((e.target as HTMLInputElement).placeholder = "---")
+                                    if (!this.state.isReadOnly && !this._tmpField.isDisplayOnly) {
+                                      (e.target as HTMLInputElement).placeholder = "---";
                                     }
                                   }}
                                 ></input>
